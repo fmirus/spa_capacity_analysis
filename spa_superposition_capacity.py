@@ -1,8 +1,6 @@
 import numpy as np
 import nengo_spa as spa
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 def get_similarity_df(dim, n_comb, operation, seed, vocab):
@@ -76,71 +74,28 @@ def create_random_vocab(dim, num_vector_items, seed, b_unitary=False):
     return vocab
 
 
-def plot(df, sp, dim_ranges):
-    sns.set(style="whitegrid")
-    sns.set(font_scale=1.5)
-    fp = sns.catplot(x='combinations',
-                     y='similarity',
-                     hue='val',
-                     col='dimension',
-                     kind='box',
-                     data=df,
-                     height=30,
-                     aspect=1,
-                     legend=False,
-                     whis=[0.05, 0.95])
-    fp.set_axis_labels('# Superpositions', 'Similarity')
-    labels = sp
-    labels = [label if label %20 ==0 else '' for label in labels]
-    fp.set_xticklabels(labels)
-    for ind, (ax, dim) in enumerate(zip(fp.axes.flat, dim_ranges)):
-        ax.grid(ls=':')
-        ax.axhline(2./np.sqrt(dim),
-                   c='r',
-                   ls=':',
-                   label='weak similarity threshold')
-        ax.axhline(3./np.sqrt(dim),
-                   c='g',
-                   ls=':',
-                   label='strong similarity threshold')
-        ax.set_title(label='Dimension = %i'%dim)
-        ax.set_xticklabels(ax.get_xticklabels())
-        ax.set_yticklabels(np.round(np.arange(0, 1.1, 0.1), 1), fontsize=16)
-        ax.set_xlabel('# Superpositions')
-        if dim_ranges[ind] == dim_ranges[0]:
-            ax.set_ylabel('Similarity')
-        if dim_ranges[ind] == dim_ranges[-1]:
-            ax.legend(loc=1, frameon=True)
-
-
 if __name__ == "__main__":
     dim_list = [256, 512, 1024]
     num_comb_list = np.arange(10, 210, 10)
     operation = 'superpos'
     seeds = np.arange(3)
-    b_calculate=False
-    if b_calculate:
-        first = True
-        for seed in seeds:
-            for dim in dim_list:
-                for num_combs in num_comb_list:
-                    vocab = create_random_vocab(dim, 2*num_combs, seed=seed)
-                    if first:
-                        df = get_similarity_df(dim=dim,
-                                               n_comb=num_combs,
-                                               operation=operation,
-                                               seed=seed,
-                                               vocab=vocab)
-                        first = False
-                    else:
-                        df = df.append(get_similarity_df(dim=dim,
-                                                         n_comb=num_combs,
-                                                         operation=operation,
-                                                         seed=seed,
-                                                         vocab=vocab))
+    first = True
+    for seed in seeds:
+        for dim in dim_list:
+            for num_combs in num_comb_list:
+                vocab = create_random_vocab(dim, 2*num_combs, seed=seed)
+                if first:
+                    df = get_similarity_df(dim=dim,
+                                           n_comb=num_combs,
+                                           operation=operation,
+                                           seed=seed,
+                                           vocab=vocab)
+                    first = False
+                else:
+                    df = df.append(get_similarity_df(dim=dim,
+                                                     n_comb=num_combs,
+                                                     operation=operation,
+                                                     seed=seed,
+                                                     vocab=vocab))
 
-        df.to_hdf('data/superpos_saturation.h5', key='df')
-    else:
-        df = pd.read_hdf('data/superpos_saturation.h5')
-        plot(df, num_comb_list, dim_list)
-        plt.show()
+    df.to_hdf('data/superpos_saturation.h5', key='df')
