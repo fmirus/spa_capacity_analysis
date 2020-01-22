@@ -1,6 +1,6 @@
 # spa\_capacity\_analysis
 
-Code for analyzing the capacity of distributed representations accompanying the corresponding IJCNN paper
+Code for analyzing the capacity of distributed representations accompanying the corresponding IJCNN paper.
 We recommend using Python 3.x.
 
 ## Dependencies
@@ -12,7 +12,7 @@ To install all required packages, run the following command
 
 ## Scripts
 
-This repository contains three python script.
+This repository contains three python scripts.
 To simply re-generate the plots from the paper, please run
 
 ```python create_plots.py```
