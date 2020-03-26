@@ -43,9 +43,9 @@ def heatmap_plot(img,
                  dpi=1200):
     from matplotlib import cm
     from matplotlib import colors
-    label_font_size = 24
-    tick_font_size = 20
-    legend_font_size = 24
+    label_font_size = 34
+    tick_font_size = 28
+    legend_font_size =30
     b_gt = False
 
     if gtx is not None and gty is not None:
