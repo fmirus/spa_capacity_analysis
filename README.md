@@ -1,6 +1,6 @@
 # spa\_capacity\_analysis
 
-Code for analyzing the capacity of distributed representations accompanying the corresponding IJCNN paper.
+Code for analyzing the capacity of distributed representations accompanying our paper [Analyzing the Capacity of Distributed Vector Representations to Encode Spatial Information](https://ieeexplore.ieee.org/document/9207137). You can find the pdf of the paper on [arXiv](https://arxiv.org/pdf/2010.00055.pdf).
 We recommend using Python 3.x.
 
 ## Dependencies
